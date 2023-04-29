@@ -1,0 +1,22 @@
+body {
+  background-color: #fff;
+}
+form {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+label {
+  font-size: 32px;
+  color: black;
+}
+
+#inpt-data {
+  width: 640px;
+  height: 52px;
+  border-radius: 8px;
+  border-color: cyan;
+}
