@@ -8,14 +8,12 @@
     <title>Analisador Léxico</title>
   </head>
   <body>
-    <form>
-      <label name="inptDataLabel">Digite sua entrada: </label>
-      <input
-        name="inptData"
-        id="inpt-data"
-        placeholder="Se você gosta de satã digite, se gosta de jesus só olhe"
-        type="text"
-      />
+    <form onsubmit="return false;">
+      <label for="input-text">Digite algum texto:</label>
+      <input type="text" id="input-text" name="input-text" maxlength="10" placeholder="Digite aqui" />
+      <button onclick="handleSubmit()">Checar String</button>
+      <div id="container" class="container">
+      </div>
     </form>
     <div></div>
   </body>
