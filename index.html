@@ -4,16 +4,20 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="index.css" />
     <title>Analisador Léxico</title>
   </head>
   <body>
     <form onsubmit="return false;">
       <label for="input-text">Digite algum texto:</label>
-      <input type="text" id="input-text" name="input-text" maxlength="10" placeholder="Digite aqui" />
+      <input
+        type="text"
+        id="input-text"
+        name="input-text"
+        placeholder="Digite aqui"
+      />
       <button onclick="handleSubmit()">Checar String</button>
-      <div id="container" class="container">
-      </div>
+      <div id="container" class="container"></div>
     </form>
     <div></div>
   </body>
