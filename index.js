@@ -1,12 +1,7 @@
 const inptData = document.getElementById("input-text");
 const ruleContainer = document.getElementById("container");
-
+const STRING_ACCENT = new RegExp("^[áàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ]+$");
 const rules = [
-  /*   {
-    title: "Mais de 10 caracteres",
-    regex: new RegExp(".{10,}"),
-    status: false,
-  }, */
   {
     title: "Apenas letras minúsculas",
     regex: new RegExp("^[^A-Z]*[a-z]+[^A-Z]*$"),
@@ -35,9 +30,9 @@ const rules = [
   },
   {
     title:
-      "Tokens atômicos compostos pelas letras x, y, z, t e w poderão ser aceitas caso elas venham alternadas de operadores matemáticos +, -, * ou / e dos caracteres especiais (), L1, f, }, @, #, ! e de algarismos numéricos (caracterização de uma expressão matemática). Caso contrario não",
+      "Tokens atômicos compostos pelas letras x, y, z, t e w poderão ser aceitas caso elas venham alternadas de operadores matemáticos +, -, * ou / e dos caracteres especiais (,), {, }, [,], $, @, #, ! e de algarismos numéricos (caracterização de uma expressão matemática). Caso contrario não",
     regex: new RegExp(
-      "^(?=.*[+\\-*/()L1f@#!\\d])[a-zA-Z0-9+*\\-\\/()L1f@#!{}XYTW]*[xyztw][a-zA-Z0-9+*\\-\\/()L1f@#!{}XYTW]*$"
+      "^(?=.*[+\\-*/(){}[]$@#!\\d])[a-zA-Z0-9+*\\-\\/(){}[]$@#!{}XYTW]*[xyztw][a-zA-Z0-9+*\\-\\/(){}[]$@#!{}XYTW]*$"
     ),
     status: false,
   },
@@ -46,19 +41,29 @@ const rules = [
     regex: new RegExp("^(?:[^\\s]*\\s){0,9}[^\\s]*$"),
     status: false,
   },
-  {
-    title: "Possui acentos",
-    regex: new RegExp("^[záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ]+$"),
-    status: false,
-  },
 ];
+
+function checkLength() {
+  let accentCounter = 0;
+  const string = inptData.value.substring(0, 9);
+  const stringArray = string.split("");
+
+  stringArray.forEach((item) => {
+    if (STRING_ACCENT.test(item)) {
+      accentCounter += 1;
+    }
+  });
+
+  return inptData.value.substring(0, 10 - accentCounter);
+}
 
 function updateRule(index, value) {
   rules[index] = value;
 }
 
 function checkString() {
-  const firstTen = inptData.value.substring(0, 9);
+  const firstTen = checkLength();
+  console.log(firstTen);
   for (let i = 0; i < rules.length; i++) {
     const rule = rules[i];
     if (rule.regex.test(firstTen)) {
