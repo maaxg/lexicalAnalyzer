@@ -1,6 +1,6 @@
 const inptData = document.getElementById("input-text");
 const ruleContainer = document.getElementById("container");
-const STRING_ACCENT = new RegExp("^[áàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ]+$");
+const STRING_ACCENT = new RegExp("^[áàâãéèêíïóôõöúñÁÀÂÃÉÈÍÏÓÔÕÖÚÑ]+$");
 const rules = [
   {
     title: "Apenas letras minúsculas",
@@ -43,26 +43,12 @@ const rules = [
   },
 ];
 
-function checkLength() {
-  let accentCounter = 0;
-  const string = inptData.value.substring(0, 9);
-  const stringArray = string.split("");
-
-  stringArray.forEach((item) => {
-    if (STRING_ACCENT.test(item)) {
-      accentCounter += 1;
-    }
-  });
-
-  return inptData.value.substring(0, 10 - accentCounter);
-}
-
 function updateRule(index, value) {
   rules[index] = value;
 }
 
 function checkString() {
-  const firstTen = checkLength();
+  const firstTen = inptData.value.substring(0, 9);
   console.log(firstTen);
   for (let i = 0; i < rules.length; i++) {
     const rule = rules[i];
