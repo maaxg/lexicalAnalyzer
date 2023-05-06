@@ -1,15 +1,16 @@
 const inptData = document.getElementById("input-text");
 const ruleContainer = document.getElementById("container");
 const STRING_ACCENT = new RegExp("^[áàâãéèêíïóôõöúñÁÀÂÃÉÈÍÏÓÔÕÖÚÑ]+$");
+let isMathExpression = false;
 const rules = [
   {
     title: "Apenas algarismos numéricos de 0 a 9",
-    regex: new RegExp('^(?:(?!\\d{2,})\\d|[a-zA-Z\\s\\W])*$'),
+    regex: new RegExp("^(?:(?!\\d{2,})\\d|[a-zA-Z\\s\\W])*$"),
     status: false,
   },
   {
     title: "Strings de palavras iniciadas com números são palavras reservadas",
-    regex: new RegExp('^(?![0-9])[a-z0-9XYZTW@#_!()\\/*\\+\\-{}fL1]+$'),
+    regex: new RegExp("^(?![0-9])[a-z0-9XYZTW@#_!()\\/*\\+\\-{}fL1]+$"),
     status: false,
   },
   {
@@ -21,13 +22,13 @@ const rules = [
     title:
       "Tokens atômicos compostos pelas letras x, y, z, t e w poderão ser aceitas caso elas venham alternadas de operadores matemáticos +, -, * ou / e dos caracteres especiais (,), {, }, [,], $, @, #, ! e de algarismos numéricos (caracterização de uma expressão matemática). Caso contrario não",
     regex: new RegExp(
-      '^(?:(?![xXyYzZtTwW])[a-zA-Z0-9+\\-*/()\\[\\]{}$@#!]|(?:[xXyYzZtTwW](?:[+\\-*/()\\[\\]{}$@#!]|[0-9])))*$'
+      "^(?:(?![xXyYzZtTwW])[a-zA-Z0-9+\\-*/()\\[\\]{}$@#!]|(?:[xXyYzZtTwW](?:[+\\-*/()\\[\\]{}$@#!]|[0-9])))*$"
     ),
     status: false,
   },
   {
     title: "Tamanho máximo de 10 tokens atômicos",
-    regex: new RegExp('^(?:[^\\s]*\\s){0,9}[^\\s]*$'),
+    regex: new RegExp("^(?:[^\\s]*\\s){0,9}[^\\s]*$"),
     status: false,
   },
 ];
@@ -36,9 +37,17 @@ function updateRule(index, value) {
   rules[index] = value;
 }
 
+function checkMathExpression(value) {
+  let isMath = false;
+  value.split("").forEach((item) => {
+    if (["+", "-", "*", "/"].includes(item)) isMath = true;
+  });
+  return isMath;
+}
+
 function checkString() {
   const firstTen = inptData.value.substring(0, 9);
-  console.log(firstTen);
+  isMathExpression = checkMathExpression(firstTen);
   for (let i = 0; i < rules.length; i++) {
     const rule = rules[i];
     if (rule.regex.test(firstTen)) {
@@ -52,17 +61,22 @@ function checkString() {
 function updateElements() {
   let accept = true;
 
-  for(const rule of rules) {
-    if(rule.status === false) accept = false;
+  for (const rule of rules) {
+    if (rule.status === false) accept = false;
   }
-
-  if(accept) {
+  console.log(isMathExpression);
+  if (isMathExpression) {
+    ruleContainer.innerHTML = `
+      <span style="color: green">
+        É uma expressão matemática ✅
+      </span>
+    `;
+  } else if (accept) {
     ruleContainer.innerHTML = `
     <span style="color: green">
       String aceita ✅
-    </span>`
-  }
-  else {
+    </span>`;
+  } else {
     const elements = rules.map((value) => {
       if (value.status) {
         return `
