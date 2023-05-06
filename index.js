@@ -3,24 +3,13 @@ const ruleContainer = document.getElementById("container");
 const STRING_ACCENT = new RegExp("^[áàâãéèêíïóôõöúñÁÀÂÃÉÈÍÏÓÔÕÖÚÑ]+$");
 const rules = [
   {
-    title: "Apenas letras minúsculas",
-    regex: new RegExp("^[^A-Z]*[a-z]+[^A-Z]*$"),
-    status: false,
-  },
-  {
     title: "Apenas algarismos numéricos de 0 a 9",
-    regex: new RegExp("^[0-9]|[1-9][0-9]$"),
-    status: false,
-  },
-  {
-    title:
-      "Excetuando as letras x, y, z, t e w em cadeias de strings não serão válidas",
-    regex: new RegExp("^(?:(?!xyztw)[^a-zA-Z\\d]*[a-zA-Z\\d]*)*$"),
+    regex: new RegExp('^(?:(?!\\d{2,})\\d|[a-zA-Z\\s\\W])*$'),
     status: false,
   },
   {
     title: "Strings de palavras iniciadas com números são palavras reservadas",
-    regex: new RegExp("^(?![0-9])[a-z0-9XYZTW@#_!()\\/*\\+\\-{}fL1]+$"),
+    regex: new RegExp('^(?![0-9])[a-z0-9XYZTW@#_!()\\/*\\+\\-{}fL1]+$'),
     status: false,
   },
   {
@@ -32,13 +21,13 @@ const rules = [
     title:
       "Tokens atômicos compostos pelas letras x, y, z, t e w poderão ser aceitas caso elas venham alternadas de operadores matemáticos +, -, * ou / e dos caracteres especiais (,), {, }, [,], $, @, #, ! e de algarismos numéricos (caracterização de uma expressão matemática). Caso contrario não",
     regex: new RegExp(
-      "^(?=.*[+\\-*/(){}[]$@#!\\d])[a-zA-Z0-9+*\\-\\/(){}[]$@#!{}XYTW]*[xyztw][a-zA-Z0-9+*\\-\\/(){}[]$@#!{}XYTW]*$"
+      '^(?:(?![xXyYzZtTwW])[a-zA-Z0-9+\\-*/()\\[\\]{}$@#!]|(?:[xXyYzZtTwW](?:[+\\-*/()\\[\\]{}$@#!]|[0-9])))*$'
     ),
     status: false,
   },
   {
     title: "Tamanho máximo de 10 tokens atômicos",
-    regex: new RegExp("^(?:[^\\s]*\\s){0,9}[^\\s]*$"),
+    regex: new RegExp('^(?:[^\\s]*\\s){0,9}[^\\s]*$'),
     status: false,
   },
 ];
