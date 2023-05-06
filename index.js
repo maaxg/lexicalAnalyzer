@@ -61,20 +61,33 @@ function checkString() {
 }
 
 function updateElements() {
-  const elements = rules.map((value) => {
-    if (value.status) {
-      return `
-      <span style="color: green">
-        - ${value.title} [ ✅ ]
-      </span>`;
-    }
-    return `
-    <span style="color: red">
-      - ${value.title} [ ❌ ]
-    </span>`;
-  });
+  let accept = true;
 
-  ruleContainer.innerHTML = elements.join("");
+  for(const rule of rules) {
+    if(rule.status === false) accept = false;
+  }
+
+  if(accept) {
+    ruleContainer.innerHTML = `
+    <span style="color: green">
+      String aceita ✅
+    </span>`
+  }
+  else {
+    const elements = rules.map((value) => {
+      if (value.status) {
+        return `
+        <span style="color: green">
+          - ${value.title} [ ✅ ]
+        </span>`;
+      }
+      return `
+      <span style="color: red">
+        - ${value.title} [ ❌ ]
+      </span>`;
+    });
+    ruleContainer.innerHTML = elements.join("");
+  }
 }
 
 function handleSubmit() {
