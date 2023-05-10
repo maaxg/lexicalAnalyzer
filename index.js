@@ -50,11 +50,7 @@ function checkString() {
   isMathExpression = checkMathExpression(firstTen);
   for (let i = 0; i < rules.length; i++) {
     const rule = rules[i];
-    if (rule.regex.test(firstTen)) {
-      updateRule(i, { ...rule, status: true });
-    } else {
-      updateRule(i, { ...rule, status: false });
-    }
+    updateRule(i, { ...rule, status: rule.regex.test(firstTen) });
   }
 }
 
@@ -64,7 +60,6 @@ function updateElements() {
   for (const rule of rules) {
     if (rule.status === false) accept = false;
   }
-  console.log(isMathExpression);
   if (isMathExpression) {
     ruleContainer.innerHTML = `
       <span style="color: green">
